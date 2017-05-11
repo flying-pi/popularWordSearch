@@ -29,8 +29,8 @@ public class WordGetter {
 
     private String clear(String str) {
         return str
-//                .replaceAll("[^A-Za-z]", " ")
-                .replaceAll("[^А-Яа-я]", " ")
+                .replaceAll("[^A-Za-z]", " ")
+//                .replaceAll("[^А-Яа-я]", " ")
                 .replaceAll("  ", " ")
                 .replaceAll("\\b\\w{1,2}\\b\\s?", "")
                 ;
