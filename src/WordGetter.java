@@ -6,7 +6,7 @@ import java.util.*;
  * Created by yurabraiko on 11.05.17.
  */
 public class WordGetter {
-    Map<String, Double> wordFrequency = new HashMap<String, Double>();
+    Map<String, Double> wordFrequency = new LinkedHashMap<>();
     double maxWordCount = 0;
     double total;
 
@@ -29,14 +29,15 @@ public class WordGetter {
 
     private String clear(String str) {
         return str
-                .replaceAll("[^A-Za-z]", " ")
+//                .replaceAll("[^A-Za-z]", " ")
+                .replaceAll("[^А-Яа-я]", " ")
                 .replaceAll("  ", " ")
                 .replaceAll("\\b\\w{1,2}\\b\\s?", "")
                 ;
     }
 
     private Map<String, Double> normolize(Map<String, Double> words) {
-        Map<String, Double> result = new HashMap<>();
+        Map<String, Double> result = new LinkedHashMap<>();
         double k = getNormolizeScaleK();
         words.forEach((s, aDouble) -> result.put(s, (aDouble * k) / total));
         Map<String, Double> sortedResult = Utils.sortByValue(result, (o1, o2) -> {
@@ -72,8 +73,8 @@ public class WordGetter {
     }
 
     private Pair<Map<String, Double>, Map<String, Double>> splitWithE(double mean, double dispersion, Map<String, Double> input) {
-        Map<String, Double> group = new HashMap<>();
-        Map<String, Double> source = new HashMap<>();
+        Map<String, Double> group = new LinkedHashMap<>();
+        Map<String, Double> source = new LinkedHashMap<>();
         input.forEach((s, aDouble) -> {
             if (Math.abs(aDouble - mean) < dispersion) {
                 group.put(s, aDouble);
@@ -86,8 +87,8 @@ public class WordGetter {
     }
 
     private Pair<Map<String, Double>, Map<String, Double>> splitBySize(double mean, Map<String, Double> input) {
-        Map<String, Double> left = new HashMap<>();
-        Map<String, Double> right = new HashMap<>();
+        Map<String, Double> left = new LinkedHashMap<>();
+        Map<String, Double> right = new LinkedHashMap<>();
         input.forEach((s, aDouble) -> {
             if (aDouble < mean) {
                 left.put(s, aDouble);
@@ -99,7 +100,7 @@ public class WordGetter {
     }
 
     private Map<String, Double> removeLeftSideOutDispersion(double mean, double d, Map<String, Double> input) {
-        HashMap<String, Double> result = new HashMap<>();
+        LinkedHashMap<String, Double> result = new LinkedHashMap<>();
         input.forEach((s, aDouble) -> {
             if (aDouble > mean + d || aDouble < mean - d)
                 return;
